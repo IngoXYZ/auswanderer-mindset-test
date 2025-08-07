@@ -1,6 +1,0 @@
-# .gitignore
-.env
-node_modules/
-.next/
-.prisma/
-dist/
