@@ -1,14 +1,11 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
-import { getPrismaClient } from '@/lib/db';
+import prisma from '@/lib/db'; // Direktes Importieren des synchronen prisma-Objekts
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 export async function POST(request: NextRequest) {
   try {
-    const prisma = await getPrismaClient();
     const { name, email } = await request.json();
 
     if (!name || !email) {
@@ -20,7 +17,7 @@ export async function POST(request: NextRequest) {
 
     // Check if user already exists, if so, return existing user
     let user = await prisma.user.findUnique({
-      where: { email: email.toLowerCase() }
+      where: { email: email.toLowerCase().trim() },
     });
 
     if (!user) {
@@ -41,4 +38,3 @@ export async function POST(request: NextRequest) {
     );
   }
 }
-
